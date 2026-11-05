@@ -90,6 +90,49 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+.status-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.status-chip-success { color: var(--accent-green); }
+.status-chip-warning { color: var(--accent-amber); }
+.status-chip-info { color: var(--accent-cyan); }
+
+.status-pill {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
 /* Glassmorphism Panel */
 .glass-panel {
   background: var(--bg-card);

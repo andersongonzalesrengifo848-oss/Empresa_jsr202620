@@ -33,7 +33,7 @@ export function renderDashboardModule(container, onNavigate) {
   container.innerHTML = `
     <div class="dashboard-module">
       <!-- Top Title Bar -->
-      <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+      <div style="margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
           <h1 style="font-size: 1.85rem; color: white; margin-bottom: 0.2rem;">
             Panel de Control - Multiservicios JSR TechFix 3D
@@ -46,6 +46,25 @@ export function renderDashboardModule(container, onNavigate) {
         <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(17, 24, 39, 0.7); border: 1px solid var(--border-glass); padding: 0.4rem 0.85rem; border-radius: var(--radius-full);">
           <img src="${currentUser ? currentUser.avatarUrl : ''}" style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-cyan);">
           <span style="font-size: 0.85rem; color: var(--text-muted);">Técnico: <strong style="color: white;">${currentUser ? currentUser.fullName : 'Ing. Alexis Ruiz'}</strong></span>
+        </div>
+      </div>
+
+      <div class="status-summary-bar glass-panel">
+        <div class="status-chip status-chip-success">
+          <span class="status-pill"></span>
+          Taller activo
+        </div>
+        <div class="status-chip status-chip-warning">
+          <span class="status-pill"></span>
+          3 alertas pendientes
+        </div>
+        <div class="status-chip status-chip-info">
+          <span class="status-pill"></span>
+          Tiempo medio: 3.4 h
+        </div>
+        <div class="quick-actions">
+          <button class="btn btn-primary btn-sm">Nuevo ticket</button>
+          <button class="btn btn-secondary btn-sm">Inventario</button>
         </div>
       </div>
 
