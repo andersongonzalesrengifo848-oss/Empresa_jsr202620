@@ -133,6 +133,29 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: auto;
 }
 
+.system-toast {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1200;
+  max-width: 360px;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--border-glass-glow);
+  color: var(--text-main);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.system-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Glassmorphism Panel */
 .glass-panel {
   background: var(--bg-card);

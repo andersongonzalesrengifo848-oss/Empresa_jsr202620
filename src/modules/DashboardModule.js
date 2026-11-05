@@ -1,6 +1,6 @@
 // Módulo 0: Panel de Control - Dashboard Principal (Inspirado en la Interfaz TechFix 3D)
 
-import { getOrders, getInventory, getNotifications } from '../services/storage.js';
+import { getOrders, getInventory, getNotifications, addNotification } from '../services/storage.js';
 import { getCurrentUser } from '../services/auth.js';
 import { formatCurrency, formatDate } from '../services/utils.js';
 
@@ -32,6 +32,8 @@ export function renderDashboardModule(container, onNavigate) {
 
   container.innerHTML = `
     <div class="dashboard-module">
+      <div id="system-toast" class="system-toast" aria-live="polite"></div>
+
       <!-- Top Title Bar -->
       <div style="margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
@@ -63,8 +65,8 @@ export function renderDashboardModule(container, onNavigate) {
           Tiempo medio: 3.4 h
         </div>
         <div class="quick-actions">
-          <button class="btn btn-primary btn-sm">Nuevo ticket</button>
-          <button class="btn btn-secondary btn-sm">Inventario</button>
+          <button class="btn btn-primary btn-sm" type="button">Nuevo ticket</button>
+          <button class="btn btn-secondary btn-sm" type="button" id="simulate-notification">Simular notificación</button>
         </div>
       </div>
 
@@ -258,6 +260,28 @@ export function renderDashboardModule(container, onNavigate) {
   if (gotoInv) {
     gotoInv.onclick = () => {
       if (onNavigate) onNavigate('inventory');
+    };
+  }
+
+  const toast = container.querySelector('#system-toast');
+  const notifyBtn = container.querySelector('#simulate-notification');
+  if (notifyBtn) {
+    notifyBtn.onclick = () => {
+      const notification = {
+        type: 'stock',
+        title: 'Alerta del sistema',
+        message: 'El inventario de Pantalla LED 15.6" está por debajo del mínimo recomendado.',
+        icon: '⚠️',
+        timeAgo: 'Hace un momento'
+      };
+
+      addNotification(notification);
+
+      if (toast) {
+        toast.textContent = notification.title + ': ' + notification.message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2600);
+      }
     };
   }
 
