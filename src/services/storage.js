@@ -125,6 +125,7 @@ export function updateOrderStatus(ticketId, newStatus) {
   const orders = getOrders();
   const order = orders.find(o => o.id === ticketId);
   if (order) {
+    const previousStatus = order.status;
     order.status = newStatus;
     if (newStatus === 'LISTO' && !order.deliveredAt) {
       order.deliveredAt = new Date().toISOString();
@@ -134,6 +135,17 @@ export function updateOrderStatus(ticketId, newStatus) {
       order.nextMaintenanceDate = maintDate.toISOString();
     }
     localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+
+    if (previousStatus !== newStatus) {
+      const statusLabel = newStatus === 'LISTO' ? 'Lista para recoger' : newStatus === 'REPARACION' ? 'En reparación' : 'En diagnóstico';
+      addNotification({
+        type: newStatus === 'LISTO' ? 'ready' : 'status',
+        title: `Orden ${ticketId} actualizada`,
+        message: `La orden ${ticketId} cambió a estado: ${statusLabel}.`,
+        icon: newStatus === 'LISTO' ? '🟢' : newStatus === 'REPARACION' ? '🟠' : '🔴',
+        timeAgo: 'Hace un momento'
+      });
+    }
   }
   return order;
 }
@@ -150,6 +162,17 @@ export function deductInventoryStock(partId, qty = 1) {
   if (item && item.stock >= qty) {
     item.stock -= qty;
     localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(inventory));
+
+    if (item.stock <= 3) {
+      addNotification({
+        type: 'stock',
+        title: 'Stock bajo',
+        message: `${item.name} está por debajo del mínimo (${item.stock} unidades).`,
+        icon: '📦',
+        timeAgo: 'Hace un momento'
+      });
+    }
+
     return { success: true, updatedItem: item };
   }
   return { success: false, message: 'Stock insuficiente' };
